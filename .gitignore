@@ -1,0 +1,9 @@
+#config file
+config.yaml
+
+#vscode
+.vscode/
+
+#ignore venv
+weather-app/
+__pycache__/

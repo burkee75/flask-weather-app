@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Weather</h1>
+	<form action="/weather" method= "POST">
+		<input type="text" name="location" placeholder="zipcode">
+		<button type="submit">Get Weather</button>
+    </form>    
+{% endblock content %}
