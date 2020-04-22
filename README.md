@@ -18,9 +18,10 @@ The file should be in the top level directory of the project.
 
 ## Running the app
 1. clone git repo
-2. pipenv install
-3. pipenv shell
-4. source env_setup.sh (this just sets environment variables)
-5. flask run
+2. Create a config.yaml file. You will need a free API key from mapbox.com
+3. pipenv install
+4. pipenv shell
+5. source env_setup.sh (this just sets environment variables)
+6. flask run
 
 If you open your browser to http://127.0.0.1:5000 you should get the webpage
