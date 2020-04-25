@@ -42,7 +42,7 @@ def weather():
         tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
         print(f"Tomorrow's Forecast is: {tomorrow_summary}")
 
-        return render_template("weather.html", result = tomorrow_summary())
+        return render_template("weather.html", result = tomorrow_summary)
 
 
 if __name__ == '__main__':
