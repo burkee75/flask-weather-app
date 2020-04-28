@@ -11,6 +11,7 @@ from noaa import NoaaWeather
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'alsdfhaohgawior2103494'
 
 with open('config.yaml', 'r') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
