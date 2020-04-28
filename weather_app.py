@@ -6,7 +6,9 @@ import requests
 from requests.exceptions import HTTPError, Timeout
 import sys 
 import yaml
-from mapbox import Geocoder
+from location import Location
+from noaa import NoaaWeather
+
 
 app = Flask(__name__)
 
@@ -23,56 +25,23 @@ def home():
 def weather():
     if request.method == 'POST':
         # uncomment this to use the form
-        location = request.form['location']
-        print(f'\nYou entered: {location}\n')
+        zipcode = request.form['location']
+        print(f'\nYou entered: {zipcode}\n')
 
-        #hard code location for testing
-        #location = "45.783950,-111.176300"
-
-        # MapBox Geocoder Lookup
-        geocoder = Geocoder(access_token=config['mapbox_api']['key'])
-        response = geocoder.forward(location, country=['us'])
-        print(f'Mapbox Zipcode Lookup HTTP code: {response.status_code}')
-
-        # Get Zipcode Center Latitude and Longitude from Mapbox
-        lat_long = response.json()['features'][0]['center']
-        print(f'Mapbox Coordinates: {lat_long}') # for debugging
-
-        coordinates = f"{str(response.json()['features'][0]['center'][1])},{str(response.json()['features'][0]['center'][0])}"
+        location = Location(config['mapbox_api']['key'])
+        print(location.latitude_longitude(zipcode))
+        
+        # have to reformat the latitude and longitude for NOAA request
+        coordinates = f"{str(location.latitude_longitude(zipcode)[1])},{str(location.latitude_longitude(zipcode)[0])}"
         print(f'Formatted coordinates are: {coordinates}') #for degbugging
 
-        # First get forecast zone, then get forecast
+        # Get weather forecast
+        weather = NoaaWeather(coordinates) #returns json
+        #print(weather.get_weather_forecast())
 
-        headers = {
-            'User-Agent':'personal-project'
-            }
-        try:
-            zone_url = requests.get(f'https://api.weather.gov/points/{coordinates}', headers=headers, timeout=5)
-            zone_url.raise_for_status()
-            print(f"Weather Request HTTP Code: {zone_url.status_code}") 
-        except Timeout:
-            print("The request timed out...")
-        except HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}') 
-        except Exception as err:
-            print(f'Other error occurred: {err}')
-            sys.exit(1)   
-        forecast_request = zone_url.json()['properties']['forecast']
-
-        try:
-            forecast = requests.get(forecast_request, headers=headers, timeout=5)
-            forecast.raise_for_status()
-            print(f"Weather Request HTTP Code: {forecast.status_code}") 
-        except Timeout:
-            print("The request timed out...")
-        except HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}') 
-        except Exception as err:
-            print(f'Other error occurred: {err}')
-            sys.exit(1)   
-
-        tomorrow_summary = forecast.json()['properties']['periods'][2]['shortForecast']
+        tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
         print(f"Tomorrow's Forecast is: {tomorrow_summary}")
+
         return render_template("weather.html", result = tomorrow_summary)
 
 
