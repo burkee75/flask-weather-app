@@ -1,6 +1,6 @@
 # Weather App powered by Flask
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import json
 import requests
 from requests.exceptions import HTTPError, Timeout
@@ -8,6 +8,7 @@ import sys
 import yaml
 from location import Location
 from noaa import NoaaWeather
+from forms import ZipcodeForm
 
 
 app = Flask(__name__)
@@ -18,9 +19,12 @@ with open('config.yaml', 'r') as file:
 
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home", methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    form = ZipcodeForm()
+    if form.validate_on_submit():
+        return redirect(url_for('weather'))
+    return render_template('home.html', form=form)
 
 @app.route("/weather", methods=['GET', 'POST'])
 def weather():
