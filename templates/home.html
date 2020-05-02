@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Weather</h1>
-	<form action="/home" method= "POST">
+	<form action="/weather" method= "POST">
 		{{ form.csrf_token }} 
-		{{ form.zipcode.label }} {{ form.zipcode(size=25) }}
+		{{ form.zipcode.label }} {{ form.zipcode(size=10) }}
 		{{ form.submit }}
     </form>    
 {% endblock content %}

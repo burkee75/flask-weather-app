@@ -30,7 +30,7 @@ def home():
 def weather():
     if request.method == 'POST':
         # uncomment this to use the form
-        zipcode = request.form['location']
+        zipcode = request.form['zipcode']
         print(f'\nYou entered: {zipcode}\n')
 
         location = Location(config['mapbox_api']['key'])
@@ -48,7 +48,6 @@ def weather():
         print(f"Tomorrow's Forecast is: {tomorrow_summary}")
 
         return render_template("weather.html", result = tomorrow_summary)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
