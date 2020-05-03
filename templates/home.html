@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Weather</h1>
 	<form action="/weather" method= "POST">
-		<input type="text" name="location" placeholder="zipcode">
+          <input type="text" name="location" placeholder="zipcode" minlength="5" maxlength="5" required pattern="[0-9]{5}">
 		<button type="submit">Get Weather</button>
-    </form>    
+        </form>    
 {% endblock content %}
