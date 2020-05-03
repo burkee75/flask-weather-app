@@ -7,7 +7,7 @@ from requests.exceptions import HTTPError, Timeout
 import sys 
 import yaml
 from location import Location
-from noaa import NoaaWeather
+#from noaa import NoaaWeather
 
 
 app = Flask(__name__)
@@ -28,18 +28,9 @@ def weather():
         zipcode = request.form['location']
         print(f'\nYou entered: {zipcode}\n')
 
-        location = Location(config['mapbox_api']['key'])
-        print(location.latitude_longitude(zipcode))
-        
-        # have to reformat the latitude and longitude for NOAA request
-        coordinates = f"{str(location.latitude_longitude(zipcode)[1])},{str(location.latitude_longitude(zipcode)[0])}"
-        print(f'Formatted coordinates are: {coordinates}') #for degbugging
-
-        # Get weather forecast
-        weather = NoaaWeather(coordinates) #returns json
-        #print(weather.get_weather_forecast())
-
-        tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
+        location = Location()
+        location.location_as_zip(zipcode, config['mapbox_api']['key'])
+        tomorrow_summary = location.weather_forecast['properties']['periods'][2]['shortForecast']
         print(f"Tomorrow's Forecast is: {tomorrow_summary}")
 
         return render_template("weather.html", result = tomorrow_summary)
