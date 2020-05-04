@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Weather</h1>
-	<form action="/weather" method= "POST">
-		{{ form.csrf_token }} 
-		{{ form.zipcode.label }} {{ form.zipcode(size=10) }}
-		{{ form.submit }}
+    <form action="" method= "POST">
+      {{ form.csrf_token }} 
+      {{ form.zipcode.label }} {{ form.zipcode(size=10) }}
+      {% if form.zipcode.errors %}
+        <ul class="errors">{% for error in form.zipcode.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+      {% endif %}
+      {{ form.submit }}
     </form>    
 {% endblock content %}

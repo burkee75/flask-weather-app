@@ -11,6 +11,7 @@ requests = "*"
 mapbox = "*"
 pyyaml = "*"
 flask-wtf = "*"
+icecream = "*"
 
 [requires]
 python_version = "3.6"
