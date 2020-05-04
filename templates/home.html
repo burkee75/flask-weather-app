@@ -9,6 +9,9 @@
         {% if form.zipcode.errors %}
           <ul class="errors">{% for error in form.zipcode.errors %}<li>{{ error }}</li>{% endfor %}</ul>
         {% endif %}
+        <small id="zipcodeHelpBlock" class="form-text text-muted">
+          Zipcode must be 5 digits long
+        </small>
       </div>
     {{ form.submit }}
     </form>    
