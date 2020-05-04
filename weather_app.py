@@ -22,7 +22,6 @@ def home():
     form = ZipcodeForm()
 
     if request.method == 'POST':
-    #if form.validate_on_submit():
         if form.validate():
             zipcode = form.zipcode.data
             print(f'\nYou entered: {zipcode}\n')
@@ -30,12 +29,11 @@ def home():
             location = Location()
             location.location_as_zip(zipcode, config['mapbox_api']['key'])
             tomorrow_summary = location.weather_forecast['properties']['periods'][2]['shortForecast']
-            print(f"Tomorrow's Forecast is: {tomorrow_summary}")
+            print(f"Tomorrow's forecast in {location.city}, {location.state} is: {tomorrow_summary}")
 
-            return render_template("weather.html", result = tomorrow_summary)
+            return render_template("weather.html", result=tomorrow_summary, city=location.city, state=location.state)
         else:
             return render_template('home.html', form=form)
-
 
     return render_template('home.html', form=form)
 

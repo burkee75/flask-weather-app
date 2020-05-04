@@ -26,6 +26,8 @@ class Location:
         ic({response.status_code})
         # Get Zipcode Center Latitude and Longitude from Mapbox
         ic(response.json()['features'][0]['center'])
+        self.city = response.json()['features'][0]['context'][0]['text']
+        self.state = response.json()['features'][0]['context'][1]['text']
         self.coordinates = response.json()['features'][0]['center']
    
     @property
