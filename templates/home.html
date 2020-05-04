@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Weather</h1>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <ul class="errors">{% for error in form.zipcode.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
+    {% if form.zipcode.errors %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="errors">{% for error in form.zipcode.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endif %}
     <form action="" method= "POST">
       {{ form.csrf_token }} 
       <div class="form-group">
