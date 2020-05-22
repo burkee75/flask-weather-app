@@ -10,6 +10,7 @@ flask = "*"
 requests = "*"
 mapbox = "*"
 pyyaml = "*"
+flask-wtf = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3"

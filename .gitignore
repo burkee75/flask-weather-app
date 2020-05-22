@@ -7,3 +7,6 @@ config.yaml
 #ignore venv
 weather-app/
 __pycache__/
+
+# Dockerfile - temporary
+Dockerfile
