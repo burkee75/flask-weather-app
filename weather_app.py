@@ -42,7 +42,15 @@ def weather():
         tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
         print(f"Tomorrow's Forecast is: {tomorrow_summary}")
 
-        return render_template("weather.html", result = tomorrow_summary)
+        forecast_list = weather.get_weather_forecast()['properties']['periods']
+        print(forecast_list)
+
+        for day in forecast_list:
+            #for key, value in day.items():
+                #print(f'{key}, {value}')
+            print(f"{day['name']}: {day['shortForecast']}")
+
+        return render_template("weather.html", forecast_list=forecast_list)
 
 
 if __name__ == '__main__':
