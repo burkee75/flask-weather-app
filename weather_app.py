@@ -6,8 +6,8 @@ import requests
 from requests.exceptions import HTTPError, Timeout
 import sys 
 import yaml
-from location import Location
-from noaa import NoaaWeather
+from darksky import DarkSkyWeather
+import datetime
 
 
 app = Flask(__name__)
@@ -28,27 +28,36 @@ def weather():
         zipcode = request.form['location']
         print(f'\nYou entered: {zipcode}\n')
 
-        location = Location(config['mapbox_api']['key'])
-        print(location.latitude_longitude(zipcode))
-        
-        # have to reformat the latitude and longitude for NOAA request
-        coordinates = f"{str(location.latitude_longitude(zipcode)[1])},{str(location.latitude_longitude(zipcode)[0])}"
-        print(f'Formatted coordinates are: {coordinates}') #for degbugging
 
-        # Get weather forecast
-        weather = NoaaWeather(coordinates) #returns json
-        #print(weather.get_weather_forecast())
+        mapbox_api_key = "pk.eyJ1IjoiYmlnc2t5dGVjaC1pbyIsImEiOiJjazNnOTc5eWowMGFpM2ZvY29rMmdvOWFtIn0.iAMSXmKVw5tkgf-h8Wu9hg"
+        #mapbox_api_key = config['mapbox_api']['key'] #for loading from yaml
 
-        tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
-        print(f"Tomorrow's Forecast is: {tomorrow_summary}")
+        darksky_api_key = "f43b221728bcd8e941b70eb5c7d125cf"
+        #darksky_api_key = config['mapbox_api']['key'] #for loading from yaml. need to add to config.yaml
 
-        forecast_list = weather.get_weather_forecast()['properties']['periods']
-        print(forecast_list)
+        weather_request = DarkSkyWeather(darksky_api_key, mapbox_api_key, zipcode).get_forecast()
+        #print(forecast.get_forecast())
+        #         
+        current_temp = weather_request['currently']['temperature']
+        print(f"Current Temp is: {current_temp}")
 
-        for day in forecast_list:
-            #for key, value in day.items():
-                #print(f'{key}, {value}')
-            print(f"{day['name']}: {day['shortForecast']}")
+        daily_summary = weather_request['daily']['data']
+        for day in daily_summary:
+            #print(f" Date: {datetime.datetime.fromtimestamp(day['time']).strftime('%m-%d-%Y')}, Summary: {day['summary']}")
+            unixtime = day['time']
+            day['time'] = datetime.datetime.fromtimestamp(unixtime).strftime('%m-%d')
+            print(f'Changed {unixtime} to {day["time"]}')
+        #tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
+        #print(f"Tomorrow's Forecast is: {tomorrow_summary}")
+
+        #forecast_list = weather.get_weather_forecast()['properties']['periods']
+        #print(forecast_list)
+
+        #for day in forecast_list:
+        #    #for key, value in day.items():
+        #        #print(f'{key}, {value}')
+        #    print(f"{day['name']}: {day['shortForecast']}")
+
 
         return render_template("weather.html", forecast_list=forecast_list)
 
