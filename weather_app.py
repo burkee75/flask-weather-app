@@ -45,7 +45,7 @@ def weather():
         for day in daily_summary:
             #print(f" Date: {datetime.datetime.fromtimestamp(day['time']).strftime('%m-%d-%Y')}, Summary: {day['summary']}")
             unixtime = day['time']
-            day['time'] = datetime.datetime.fromtimestamp(unixtime).strftime('%m-%d')
+            day['time'] = datetime.date.fromtimestamp(unixtime).strftime('%A, %B %d')
             print(f'Changed {unixtime} to {day["time"]}')
         #tomorrow_summary = weather.get_weather_forecast()['properties']['periods'][2]['shortForecast']
         #print(f"Tomorrow's Forecast is: {tomorrow_summary}")
@@ -59,7 +59,7 @@ def weather():
         #    print(f"{day['name']}: {day['shortForecast']}")
 
 
-        return render_template("weather.html", forecast_list=forecast_list)
+        return render_template("weather.html", current_temp=current_temp, daily_summary=daily_summary)
 
 
 if __name__ == '__main__':
