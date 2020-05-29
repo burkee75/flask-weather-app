@@ -12,7 +12,9 @@ The file should be formatted like so:
 # Configuration File for weather-app.py
 mapbox_api:
   key: "<your-api-key-here>"
-  ```
+openweather_api:
+  key: "<your-openweather.org-api-key>
+```
 
 The file should be in the top level directory of the project. 
 
