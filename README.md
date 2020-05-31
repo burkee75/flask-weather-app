@@ -27,3 +27,7 @@ The file should be in the top level directory of the project.
 6. flask run
 
 If you open your browser to http://127.0.0.1:5000 you should get the webpage
+
+
+## NGINX/GUNICORN
+Follow https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-centos-7 for setup
