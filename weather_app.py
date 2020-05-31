@@ -1,9 +1,6 @@
 # Weather App powered by Flask
 
 from flask import Flask, render_template, request
-import json
-import requests
-from requests.exceptions import HTTPError, Timeout
 import sys 
 import yaml
 from darksky import DarkSkyWeather
