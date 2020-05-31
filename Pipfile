@@ -11,6 +11,7 @@ flask = "*"
 requests = "*"
 mapbox = "*"
 pyyaml = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"

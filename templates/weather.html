@@ -2,11 +2,11 @@
 {% block content %}
 	<h1>Weather</h1>
 	<body>
+		<h2>Current Temperature is: {{ current_temp }}</h2>
 		<ul>
-			{% for day in forecast_list %}
-				<li>{{ day["name"] }}: {{ day["shortForecast"] }}</li>
+			{% for day in daily_summary %}
+				<li>{{ day["time"] }}: {{ day["summary"] }}</li>
 			{% endfor %}
-	
 		</ul>
 	</body>
 {% endblock content %}
