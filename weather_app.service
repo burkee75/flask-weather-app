@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve weather_app.py
+After=network.target
+
+[Service]
+User=brad
+Group=nginx
+WorkingDirectory=/home/brad/code/github/flask-weather-app
+Environment=FLASK_APP=weather_app.py
+ExecStart=/home/brad/.local/share/virtualenvs/flask-weather-app-ewv65uaG/bin/gunicorn --workers 3 --bind unix:weather_app.sock -m 007 wsgi
+
+[Install]
+WantedBy=multi-user.target
+
